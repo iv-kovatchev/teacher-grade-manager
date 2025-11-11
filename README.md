@@ -1,1 +1,1 @@
-# teacher-grade-manager
+# Teacher Grade Manager
