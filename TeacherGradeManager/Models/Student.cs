@@ -21,6 +21,6 @@ namespace TeacherGradeManager.Models
 
         [Required(ErrorMessage = "Faculty number is required")]
         [RegularExpression(@"^F\d{1,6}$", ErrorMessage = "Faculty number must start with 'F' followed by 1-6 digits")]
-        public string FacultyName { get; set; }
+        public string FacultyNumber { get; set; }
     }
 }
