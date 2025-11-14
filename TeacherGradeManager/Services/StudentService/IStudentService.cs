@@ -9,14 +9,14 @@ namespace TeacherGradeManager.Services.StudentService
 {
     public interface IStudentService
     {
+        List<Student> GetAllStudents();
+
+        Student GetStudentById(int id);
+
         void AddStudent(Student student);
 
         void UpdateStudent(Student student);
 
-        void DeleteStudent(Student student);
-
-        Student GetStudentById(int id);
-
-        List<Student> GetAllStudents();
+        void DeleteStudent(int id);
     }
 }

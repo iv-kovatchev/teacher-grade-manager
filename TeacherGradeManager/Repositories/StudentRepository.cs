@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeacherGradeManager.Models;
+using Microsoft.Data.Sqlite;
 
 namespace TeacherGradeManager.Repositories
 {
@@ -22,14 +22,16 @@ namespace TeacherGradeManager.Repositories
         {
             var students = new List<Student>();
 
-            using (var connection = new SQLiteConnection(_connectionString))
+            using (var connection = new SqliteConnection(_connectionString))
             {
                 connection.Open();
 
                 string selectQuery = "SELECT Id, FirstName, LastName, FacultyNumber FROM Students ORDER BY Id";
 
-                using (var command = new SQLiteCommand(selectQuery, connection))
+                using (var command = connection.CreateCommand())
                 {
+                    command.CommandText = selectQuery;
+
                     using (var reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -51,14 +53,15 @@ namespace TeacherGradeManager.Repositories
 
         public Student GetById(int id)
         {
-            using (var connection = new SQLiteConnection(_connectionString))
+            using (var connection = new SqliteConnection(_connectionString))
             {
                 connection.Open();
 
                 string selectQuery = "SELECT Id, FirstName, LastName, FacultyNumber FROM Students WHERE Id = @Id";
 
-                using (var command = new SQLiteCommand(selectQuery, connection))
+                using (var command = connection.CreateCommand())
                 {
+                    command.CommandText = selectQuery;
                     command.Parameters.AddWithValue("@Id", id);
 
                     using (var reader = command.ExecuteReader())
@@ -82,29 +85,29 @@ namespace TeacherGradeManager.Repositories
 
         public void Add(Student student)
         {
-            using (var connection = new SQLiteConnection(_connectionString))
+            using (var connection = new SqliteConnection(_connectionString))
             {
                 connection.Open();
 
-                string insertQuery = @"
+                var command = connection.CreateCommand();
+                command.CommandText = @"
                 INSERT INTO Students (FirstName, LastName, FacultyNumber)
                 VALUES (@FirstName, @LastName, @FacultyNumber);
                 SELECT last_insert_rowid();";
 
-                using (var command = new SQLiteCommand(insertQuery, connection))
-                {
-                    command.Parameters.AddWithValue("@FirstName", student.FirstName);
-                    command.Parameters.AddWithValue("@LastName", student.LastName);
-                    command.Parameters.AddWithValue("@FacultyNumber", student.FacultyNumber);
 
-                    student.Id = Convert.ToInt32(command.ExecuteScalar());
-                }
+                command.Parameters.AddWithValue("@FirstName", student.FirstName);
+                command.Parameters.AddWithValue("@LastName", student.LastName);
+                command.Parameters.AddWithValue("@FacultyNumber", student.FacultyNumber);
+
+                var result = command.ExecuteScalar();
+                student.Id = Convert.ToInt32(result);
             }
         }
 
         public void Update(Student student)
         {
-            using (var connection = new SQLiteConnection(_connectionString))
+            using (var connection = new SqliteConnection(_connectionString))
             {
                 connection.Open();
 
@@ -115,8 +118,9 @@ namespace TeacherGradeManager.Repositories
                         FacultyNumber = @FacultyNumber 
                     WHERE Id = @Id";
 
-                using (var command = new SQLiteCommand(updateQuery, connection))
+                using (var command = connection.CreateCommand())
                 {
+                    command.CommandText = updateQuery;
                     command.Parameters.AddWithValue("@Id", student.Id);
                     command.Parameters.AddWithValue("@FirstName", student.FirstName);
                     command.Parameters.AddWithValue("@LastName", student.LastName);
@@ -129,14 +133,15 @@ namespace TeacherGradeManager.Repositories
 
         public void Delete(int id)
         {
-            using (var connection = new SQLiteConnection(_connectionString))
+            using (var connection = new SqliteConnection(_connectionString))
             {
                 connection.Open();
 
                 string deleteQuery = "DELETE FROM Students WHERE Id = @Id";
 
-                using (var command = new SQLiteCommand(deleteQuery, connection))
+                using (var command = connection.CreateCommand())
                 {
+                    command.CommandText = deleteQuery;
                     command.Parameters.AddWithValue("@Id", id);
                     command.ExecuteNonQuery();
                 }
@@ -145,11 +150,12 @@ namespace TeacherGradeManager.Repositories
 
         private void InitiliazeDatabase()
         {
-            using (var connection = new SQLiteConnection(_connectionString))
+            using (var connection = new SqliteConnection(_connectionString))
             {
                 connection.Open();
+                var createTableCommand = connection.CreateCommand();
 
-                string createTableQuery = @"
+                createTableCommand.CommandText = @"
                 CREATE TABLE IF NOT EXISTS Students (
                     Id INTEGER PRIMARY KEY AUTOINCREMENT,
                     FirstName TEXT NOT NULL,
@@ -157,10 +163,7 @@ namespace TeacherGradeManager.Repositories
                     FacultyNumber TEXT NOT NULL UNIQUE
                 );";
 
-                using (var command = new SQLiteCommand(createTableQuery, connection))
-                {
-                    command.ExecuteNonQuery();
-                }
+                createTableCommand.ExecuteNonQuery();
             }
         }
     }
