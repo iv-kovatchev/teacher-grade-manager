@@ -30,6 +30,7 @@
         {
             dgvStudents = new DataGridView();
             panel1 = new Panel();
+            btnCancel = new Button();
             btnDelete = new Button();
             btnEdit = new Button();
             btnAdd = new Button();
@@ -39,7 +40,6 @@
             lblLastName = new Label();
             txtFirstName = new TextBox();
             lblFirstName = new Label();
-            btnCancel = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvStudents).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -49,17 +49,15 @@
             dgvStudents.AllowUserToAddRows = false;
             dgvStudents.AllowUserToDeleteRows = false;
             dgvStudents.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvStudents.Dock = DockStyle.Fill;
             dgvStudents.Location = new Point(0, 0);
             dgvStudents.MultiSelect = false;
             dgvStudents.Name = "dgvStudents";
             dgvStudents.ReadOnly = true;
             dgvStudents.RowHeadersWidth = 51;
             dgvStudents.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvStudents.Size = new Size(882, 553);
+            dgvStudents.Size = new Size(882, 353);
             dgvStudents.TabIndex = 0;
             dgvStudents.UseWaitCursor = true;
-            dgvStudents.SelectionChanged += dgvStudents_SelectionChanged;
             // 
             // panel1
             // 
@@ -79,6 +77,18 @@
             panel1.Size = new Size(882, 200);
             panel1.TabIndex = 1;
             panel1.UseWaitCursor = true;
+            // 
+            // btnCancel
+            // 
+            btnCancel.Enabled = false;
+            btnCancel.Location = new Point(732, 150);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(120, 30);
+            btnCancel.TabIndex = 9;
+            btnCancel.Text = "Cancel";
+            btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.UseWaitCursor = true;
+            btnCancel.Click += btnCancel_Click;
             // 
             // btnDelete
             // 
@@ -168,17 +178,6 @@
             lblFirstName.TabIndex = 0;
             lblFirstName.Text = "First Name:";
             lblFirstName.UseWaitCursor = true;
-            // 
-            // btnCancel
-            // 
-            btnCancel.Enabled = false;
-            btnCancel.Location = new Point(732, 151);
-            btnCancel.Name = "btnCancel";
-            btnCancel.Size = new Size(120, 30);
-            btnCancel.TabIndex = 9;
-            btnCancel.Text = "Cancel";
-            btnCancel.UseVisualStyleBackColor = true;
-            btnCancel.Click += btnCancel_Click;
             // 
             // StudentManagement
             // 

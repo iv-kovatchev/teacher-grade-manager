@@ -112,6 +112,7 @@ namespace TeacherGradeManager.Forms
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         private void btnEdit_Click(object sender, EventArgs e)
         {
             try

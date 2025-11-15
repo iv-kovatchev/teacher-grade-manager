@@ -10,7 +10,7 @@ namespace TeacherGradeManager.Repositories
     {
         List<T> GetAll();
 
-        T GetById(int id);
+        T? GetById(int id);
 
         void Add(T entity);
 

@@ -1,32 +1,33 @@
-﻿using System;
+﻿using Microsoft.Data.Sqlite;
+using Microsoft.VisualBasic.Devices;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeacherGradeManager.Models;
-using Microsoft.Data.Sqlite;
 
 namespace TeacherGradeManager.Repositories
 {
-    public class StudentRepository : IRepository<Student>
+    public class CourseRepository : IRepository<Course>
     {
         private readonly string _connectionString;
 
-        public StudentRepository(string databasePath = "teacher_grade_manager.db")
+        public CourseRepository(string databasePath = "teachers_management.db")
         {
             _connectionString = $"Data Source={databasePath}";
             InitiliazeDatabase();
         }
 
-        public List<Student> GetAll()
+        public List<Course> GetAll()
         {
-            var students = new List<Student>();
+            var courses = new List<Course>();
 
             using (var connection = new SqliteConnection(_connectionString))
             {
                 connection.Open();
 
-                string selectQuery = "SELECT Id, FirstName, LastName, FacultyNumber FROM Students ORDER BY Id";
+                string selectQuery = "SELECT Id, Name, DayOfWeek, Time, [Type] FROM Courses ORDER BY DayOfWeek, Time";
 
                 using (var command = connection.CreateCommand())
                 {
@@ -36,28 +37,29 @@ namespace TeacherGradeManager.Repositories
                     {
                         while (reader.Read())
                         {
-                            students.Add(new Student
+                            courses.Add(new Course
                             {
                                 Id = reader.GetInt32(0),
-                                FirstName = reader.GetString(1),
-                                LastName = reader.GetString(2),
-                                FacultyNumber = reader.GetString(3)
+                                Name = reader.GetString(1),
+                                DayOfWeek = (DayOfWeek)reader.GetInt32(2),
+                                Time = TimeSpan.Parse(reader.GetString(3)),
+                                Type = (CourseType)reader.GetInt32(4)
                             });
                         }
                     }
                 }
             }
 
-            return students;
+            return courses;
         }
 
-        public Student? GetById(int id)
+        public Course? GetById(int id)
         {
             using (var connection = new SqliteConnection(_connectionString))
             {
                 connection.Open();
 
-                string selectQuery = "SELECT Id, FirstName, LastName, FacultyNumber FROM Students WHERE Id = @Id";
+                string selectQuery = "SELECT Id, Name, DayOfWeek, Time, [Type] FROM Courses WHERE Id = @Id";
 
                 using (var command = connection.CreateCommand())
                 {
@@ -68,12 +70,13 @@ namespace TeacherGradeManager.Repositories
                     {
                         if (reader.Read())
                         {
-                            return new Student
+                            return new Course
                             {
                                 Id = reader.GetInt32(0),
-                                FirstName = reader.GetString(1),
-                                LastName = reader.GetString(2),
-                                FacultyNumber = reader.GetString(3)
+                                Name = reader.GetString(1),
+                                DayOfWeek = (DayOfWeek)reader.GetInt32(2),
+                                Time = TimeSpan.Parse(reader.GetString(3)),
+                                Type = (CourseType)reader.GetInt32(4)
                             };
                         }
                     }
@@ -83,48 +86,52 @@ namespace TeacherGradeManager.Repositories
             return null;
         }
 
-        public void Add(Student student)
+        public void Add(Course course)
         {
             using (var connection = new SqliteConnection(_connectionString))
             {
                 connection.Open();
 
                 var command = connection.CreateCommand();
+
                 command.CommandText = @"
-                INSERT INTO Students (FirstName, LastName, FacultyNumber)
-                VALUES (@FirstName, @LastName, @FacultyNumber);
+                INSERT INTO Courses (Name, DayOfWeek, Time, [Type])
+                VALUES (@Name, @DayOfWeek, @Time, @Type);
                 SELECT last_insert_rowid();";
 
-
-                command.Parameters.AddWithValue("@FirstName", student.FirstName);
-                command.Parameters.AddWithValue("@LastName", student.LastName);
-                command.Parameters.AddWithValue("@FacultyNumber", student.FacultyNumber);
-
-                var result = command.ExecuteScalar();
-                student.Id = Convert.ToInt32(result);
+                command.Parameters.AddWithValue("@Name", course.Name);
+                command.Parameters.AddWithValue("@DayOfWeek", (int)course.DayOfWeek);
+                command.Parameters.AddWithValue("@Time", course.Time.ToString());
+                command.Parameters.AddWithValue("@Type", (int)course.Type);
+                
+                var result = command.ExecuteNonQuery();
+                course.Id = Convert.ToInt32(result);
             }
         }
 
-        public void Update(Student student)
+        public void Update(Course course)
         {
             using (var connection = new SqliteConnection(_connectionString))
             {
                 connection.Open();
 
                 string updateQuery = @"
-                    UPDATE Students 
-                    SET FirstName = @FirstName, 
-                        LastName = @LastName, 
-                        FacultyNumber = @FacultyNumber 
+                    UPDATE Courses
+                    SET Name = @Name,
+                        DayOfWeek = @DayOfWeek,
+                        Time = @Time
+                        [Type] = @Type
                     WHERE Id = @Id";
 
                 using (var command = connection.CreateCommand())
                 {
                     command.CommandText = updateQuery;
-                    command.Parameters.AddWithValue("@Id", student.Id);
-                    command.Parameters.AddWithValue("@FirstName", student.FirstName);
-                    command.Parameters.AddWithValue("@LastName", student.LastName);
-                    command.Parameters.AddWithValue("@FacultyNumber", student.FacultyNumber);
+
+                    command.Parameters.AddWithValue("@Id", course.Id);
+                    command.Parameters.AddWithValue("@Name", course.Name);
+                    command.Parameters.AddWithValue("@DayOfWeek", (int)course.DayOfWeek);
+                    command.Parameters.AddWithValue("@Time", course.Time.ToString(@"hh\:mm"));
+                    command.Parameters.AddWithValue("@Type", (int)course.Type);
 
                     command.ExecuteNonQuery();
                 }
@@ -137,7 +144,7 @@ namespace TeacherGradeManager.Repositories
             {
                 connection.Open();
 
-                string deleteQuery = "DELETE FROM Students WHERE Id = @Id";
+                string deleteQuery = "DELETE FROM Courses WHERE Id = @Id";
 
                 using (var command = connection.CreateCommand())
                 {
@@ -156,15 +163,17 @@ namespace TeacherGradeManager.Repositories
                 var createTableCommand = connection.CreateCommand();
 
                 createTableCommand.CommandText = @"
-                CREATE TABLE IF NOT EXISTS Students (
+                CREATE TABLE IF NOT EXISTS Courses (
                     Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    FirstName TEXT NOT NULL,
-                    LastName TEXT NOT NULL,
-                    FacultyNumber TEXT NOT NULL UNIQUE
+                    Name TEXT NOT NULL UNIQUE,
+                    DayOfWeek INTEGER NOT NULL,
+                    Time TEXT NOT NULL,
+                    [Type] INTEGER NOT NULL
                 );";
 
                 createTableCommand.ExecuteNonQuery();
             }
+
         }
     }
 }

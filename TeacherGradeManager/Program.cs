@@ -2,6 +2,7 @@
 using TeacherGradeManager.Forms;
 using TeacherGradeManager.Models;
 using TeacherGradeManager.Repositories;
+using TeacherGradeManager.Services.CourseService;
 using TeacherGradeManager.Services.StudentService;
 
 namespace TeacherGradeManager
@@ -15,11 +16,14 @@ namespace TeacherGradeManager
             Application.SetCompatibleTextRenderingDefault(false);
 
             // Setup database and services
-            var repository = new StudentRepository("teachers_management.db");
-            var service = new StudentService(repository);
+            var studentRepository = new StudentRepository("teachers_management.db");
+            var studentService = new StudentService(studentRepository);
+
+            var courseRepository = new CourseRepository("teachers_management.db");
+            var courseService = new CourseService(courseRepository);
 
             // Run the form
-            Application.Run(new StudentManagement(service));
+            Application.Run(new CourseManagement(courseService));
         }
     }
 }
