@@ -52,7 +52,9 @@
             dgvCourses.AllowUserToDeleteRows = false;
             dgvCourses.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvCourses.Location = new Point(0, 0);
+            dgvCourses.MultiSelect = false;
             dgvCourses.Name = "dgvCourses";
+            dgvCourses.ReadOnly = true;
             dgvCourses.RowHeadersWidth = 51;
             dgvCourses.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvCourses.Size = new Size(882, 317);

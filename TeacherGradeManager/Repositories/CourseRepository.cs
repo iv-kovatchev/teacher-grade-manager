@@ -104,7 +104,7 @@ namespace TeacherGradeManager.Repositories
                 command.Parameters.AddWithValue("@Time", course.Time.ToString());
                 command.Parameters.AddWithValue("@Type", (int)course.Type);
                 
-                var result = command.ExecuteNonQuery();
+                var result = command.ExecuteScalar();
                 course.Id = Convert.ToInt32(result);
             }
         }
@@ -119,7 +119,7 @@ namespace TeacherGradeManager.Repositories
                     UPDATE Courses
                     SET Name = @Name,
                         DayOfWeek = @DayOfWeek,
-                        Time = @Time
+                        Time = @Time,
                         [Type] = @Type
                     WHERE Id = @Id";
 

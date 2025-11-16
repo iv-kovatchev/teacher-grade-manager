@@ -40,6 +40,7 @@
             lblLastName = new Label();
             txtFirstName = new TextBox();
             lblFirstName = new Label();
+            colorDialog1 = new ColorDialog();
             ((System.ComponentModel.ISupportInitialize)dgvStudents).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -57,7 +58,6 @@
             dgvStudents.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvStudents.Size = new Size(882, 353);
             dgvStudents.TabIndex = 0;
-            dgvStudents.UseWaitCursor = true;
             // 
             // panel1
             // 
@@ -76,7 +76,6 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(882, 200);
             panel1.TabIndex = 1;
-            panel1.UseWaitCursor = true;
             // 
             // btnCancel
             // 
@@ -87,7 +86,6 @@
             btnCancel.TabIndex = 9;
             btnCancel.Text = "Cancel";
             btnCancel.UseVisualStyleBackColor = true;
-            btnCancel.UseWaitCursor = true;
             btnCancel.Click += btnCancel_Click;
             // 
             // btnDelete
@@ -99,7 +97,6 @@
             btnDelete.TabIndex = 8;
             btnDelete.Text = "Delete Student";
             btnDelete.UseVisualStyleBackColor = true;
-            btnDelete.UseWaitCursor = true;
             btnDelete.Click += btnDelete_Click;
             // 
             // btnEdit
@@ -111,7 +108,6 @@
             btnEdit.TabIndex = 7;
             btnEdit.Text = "Edit Student";
             btnEdit.UseVisualStyleBackColor = true;
-            btnEdit.UseWaitCursor = true;
             btnEdit.Click += btnEdit_Click;
             // 
             // btnAdd
@@ -122,7 +118,6 @@
             btnAdd.TabIndex = 6;
             btnAdd.Text = "Add Student";
             btnAdd.UseVisualStyleBackColor = true;
-            btnAdd.UseWaitCursor = true;
             btnAdd.Click += btnAdd_Click;
             // 
             // txtFacultyNumber
@@ -131,7 +126,6 @@
             txtFacultyNumber.Name = "txtFacultyNumber";
             txtFacultyNumber.Size = new Size(200, 27);
             txtFacultyNumber.TabIndex = 5;
-            txtFacultyNumber.UseWaitCursor = true;
             // 
             // lblFacNumber
             // 
@@ -141,7 +135,6 @@
             lblFacNumber.Size = new Size(115, 20);
             lblFacNumber.TabIndex = 4;
             lblFacNumber.Text = "Faculty Number:";
-            lblFacNumber.UseWaitCursor = true;
             // 
             // txtLastName
             // 
@@ -149,7 +142,6 @@
             txtLastName.Name = "txtLastName";
             txtLastName.Size = new Size(200, 27);
             txtLastName.TabIndex = 3;
-            txtLastName.UseWaitCursor = true;
             // 
             // lblLastName
             // 
@@ -159,7 +151,6 @@
             lblLastName.Size = new Size(82, 20);
             lblLastName.TabIndex = 2;
             lblLastName.Text = "Last Name:";
-            lblLastName.UseWaitCursor = true;
             // 
             // txtFirstName
             // 
@@ -167,7 +158,6 @@
             txtFirstName.Name = "txtFirstName";
             txtFirstName.Size = new Size(200, 27);
             txtFirstName.TabIndex = 1;
-            txtFirstName.UseWaitCursor = true;
             // 
             // lblFirstName
             // 
@@ -177,7 +167,6 @@
             lblFirstName.Size = new Size(83, 20);
             lblFirstName.TabIndex = 0;
             lblFirstName.Text = "First Name:";
-            lblFirstName.UseWaitCursor = true;
             // 
             // StudentManagement
             // 
@@ -189,7 +178,6 @@
             Name = "StudentManagement";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Student Management";
-            UseWaitCursor = true;
             ((System.ComponentModel.ISupportInitialize)dgvStudents).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
@@ -210,5 +198,6 @@
         private Button btnDelete;
         private Button btnEdit;
         private Button btnCancel;
+        private ColorDialog colorDialog1;
     }
 }

@@ -67,7 +67,7 @@ namespace TeacherGradeManager.Services.CourseService
 
             var allCourses = _courseRepository.GetAll();
 
-            if (allCourses.Any(c => c.Name.Equals(course.Name, StringComparison.OrdinalIgnoreCase)))
+            if (allCourses.Any(c => c.Name.Equals(course.Name, StringComparison.OrdinalIgnoreCase) && c.Id != course.Id))
             {
                 throw new InvalidOperationException($"A course with the name '{course.Name}' already exists");
             }

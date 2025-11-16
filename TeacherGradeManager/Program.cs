@@ -3,6 +3,7 @@ using TeacherGradeManager.Forms;
 using TeacherGradeManager.Models;
 using TeacherGradeManager.Repositories;
 using TeacherGradeManager.Services.CourseService;
+using TeacherGradeManager.Services.GradeService;
 using TeacherGradeManager.Services.StudentService;
 
 namespace TeacherGradeManager
@@ -22,8 +23,14 @@ namespace TeacherGradeManager
             var courseRepository = new CourseRepository("teachers_management.db");
             var courseService = new CourseService(courseRepository);
 
+
+            var gradeRepository = new GradeRepository("teachers_management.db");
+            var gradeService = new GradeService(gradeRepository, studentRepository, courseRepository);
+
             // Run the form
-            Application.Run(new CourseManagement(courseService));
+            //Application.Run(new StudentManagement(studentService));
+            //Application.Run(new CourseManagement(courseService));
+            Application.Run(new GradeManagement(gradeService, studentService, courseService));
         }
     }
 }
