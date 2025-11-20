@@ -9,7 +9,7 @@ using TeacherGradeManager.Models;
 
 namespace TeacherGradeManager.Repositories
 {
-    internal class GradeRepository : IRepository<Grade>
+    public class GradeRepository : IRepository<Grade>
     {
         private readonly string _connectionString;
 

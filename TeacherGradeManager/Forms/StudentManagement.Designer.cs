@@ -41,6 +41,7 @@
             txtFirstName = new TextBox();
             lblFirstName = new Label();
             colorDialog1 = new ColorDialog();
+            btnBack = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvStudents).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -61,6 +62,7 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(btnBack);
             panel1.Controls.Add(btnCancel);
             panel1.Controls.Add(btnDelete);
             panel1.Controls.Add(btnEdit);
@@ -80,7 +82,7 @@
             // btnCancel
             // 
             btnCancel.Enabled = false;
-            btnCancel.Location = new Point(732, 150);
+            btnCancel.Location = new Point(732, 65);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(120, 30);
             btnCancel.TabIndex = 9;
@@ -168,6 +170,16 @@
             lblFirstName.TabIndex = 0;
             lblFirstName.Text = "First Name:";
             // 
+            // btnBack
+            // 
+            btnBack.Location = new Point(732, 150);
+            btnBack.Name = "btnBack";
+            btnBack.Size = new Size(120, 30);
+            btnBack.TabIndex = 10;
+            btnBack.Text = "Back";
+            btnBack.UseVisualStyleBackColor = true;
+            btnBack.Click += btnBack_Click;
+            // 
             // StudentManagement
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -199,5 +211,6 @@
         private Button btnEdit;
         private Button btnCancel;
         private ColorDialog colorDialog1;
+        private Button btnBack;
     }
 }

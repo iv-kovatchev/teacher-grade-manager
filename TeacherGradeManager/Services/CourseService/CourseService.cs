@@ -12,10 +12,12 @@ namespace TeacherGradeManager.Services.CourseService
     public class CourseService : ICourseService
     {
         private readonly IRepository<Course> _courseRepository;
+        private readonly GradeRepository _gradeRepository;
 
-        public CourseService(IRepository<Course> courseRepository)
+        public CourseService(IRepository<Course> courseRepository, GradeRepository gradeRepository)
         {
             _courseRepository = courseRepository;
+            _gradeRepository = gradeRepository;
         }
 
         public List<Course> GetAllCourses()
@@ -86,6 +88,14 @@ namespace TeacherGradeManager.Services.CourseService
             if (existingCourse == null)
             {
                 throw new ValidationException($"Course with ID {courseId} not found. Cannot delete.");
+            }
+
+            var grades = _gradeRepository.GetGradesByCourse(courseId);
+            if (grades.Any())
+            {
+                throw new InvalidOperationException(
+                    $"Cannot delete course. Course has {grades.Count} grade(s) assigned. " +
+                    "Please remove all grades before deleting the course.");
             }
 
             _courseRepository.Delete(courseId);

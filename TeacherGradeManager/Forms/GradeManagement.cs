@@ -436,6 +436,11 @@ namespace TeacherGradeManager.Forms
             cmbGradeValue.SelectedIndex = -1;
             cmbStudent.Focus();
         }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 
     public class GradeDisplay

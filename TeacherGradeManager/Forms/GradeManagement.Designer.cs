@@ -40,6 +40,7 @@
             lblGrade = new Label();
             lblCourse = new Label();
             lblStudent = new Label();
+            btnBack = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvGrades).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -60,6 +61,7 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(btnBack);
             panel1.Controls.Add(btnCancel);
             panel1.Controls.Add(btnDelete);
             panel1.Controls.Add(btnEdit);
@@ -78,7 +80,7 @@
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(732, 150);
+            btnCancel.Location = new Point(732, 65);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(120, 30);
             btnCancel.TabIndex = 9;
@@ -170,6 +172,16 @@
             lblStudent.TabIndex = 0;
             lblStudent.Text = "Student:";
             // 
+            // btnBack
+            // 
+            btnBack.Location = new Point(732, 150);
+            btnBack.Name = "btnBack";
+            btnBack.Size = new Size(120, 30);
+            btnBack.TabIndex = 10;
+            btnBack.Text = "Back";
+            btnBack.UseVisualStyleBackColor = true;
+            btnBack.Click += btnBack_Click;
+            // 
             // GradeManagement
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -178,6 +190,7 @@
             Controls.Add(panel1);
             Controls.Add(dgvGrades);
             Name = "GradeManagement";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Grade Management";
             ((System.ComponentModel.ISupportInitialize)dgvGrades).EndInit();
             panel1.ResumeLayout(false);
@@ -199,5 +212,6 @@
         private Button btnDelete;
         private Button btnEdit;
         private Button btnAdd;
+        private Button btnBack;
     }
 }

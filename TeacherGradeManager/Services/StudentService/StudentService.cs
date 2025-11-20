@@ -12,10 +12,12 @@ namespace TeacherGradeManager.Services.StudentService
     internal class StudentService : IStudentService
     {
         private readonly IRepository<Student> _repository;
+        private readonly GradeRepository _gradeRepository;
 
-        public StudentService(IRepository<Student> repository)
+        public StudentService(IRepository<Student> repository, GradeRepository gradeRepository)
         {
             _repository = repository;
+            _gradeRepository = gradeRepository;
         }
 
         public List<Student> GetAllStudents()
@@ -84,6 +86,14 @@ namespace TeacherGradeManager.Services.StudentService
             if (existingStudent == null)
             {
                 throw new ValidationException($"Student with ID {studentId} not found. Cannot delete.");
+            }
+
+            var grades = _gradeRepository.GetGradesByStudent(studentId);
+            if (grades.Any())
+            {
+                throw new InvalidOperationException(
+                    $"Cannot delete student. Student has {grades.Count} grade(s) assigned. " +
+                    "Please remove all grades before deleting the student.");
             }
 
             _repository.Delete(studentId);

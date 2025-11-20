@@ -23,6 +23,9 @@ namespace TeacherGradeManager.Forms
         {
             InitializeComponent();
             _studentService = studentService;
+
+            dgvStudents.SelectionChanged += dgvStudents_SelectionChanged;
+
             this.Load += StudentManagement_Load;
         }
 
@@ -226,6 +229,8 @@ namespace TeacherGradeManager.Forms
 
         private void dgvStudents_SelectionChanged(object sender, EventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine($"Selection changed! Count: {dgvStudents.SelectedRows.Count}");
+
             if (dgvStudents.SelectedRows.Count > 0)
             {
                 _selectedStudent = (Student)dgvStudents.SelectedRows[0].DataBoundItem;
@@ -282,6 +287,11 @@ namespace TeacherGradeManager.Forms
             }
 
             return true;
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

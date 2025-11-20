@@ -17,20 +17,18 @@ namespace TeacherGradeManager
             Application.SetCompatibleTextRenderingDefault(false);
 
             // Setup database and services
-            var studentRepository = new StudentRepository("teachers_management.db");
-            var studentService = new StudentService(studentRepository);
-
-            var courseRepository = new CourseRepository("teachers_management.db");
-            var courseService = new CourseService(courseRepository);
 
 
             var gradeRepository = new GradeRepository("teachers_management.db");
+            var studentRepository = new StudentRepository("teachers_management.db"); 
+            var courseRepository = new CourseRepository("teachers_management.db");
+
             var gradeService = new GradeService(gradeRepository, studentRepository, courseRepository);
+            var studentService = new StudentService(studentRepository, gradeRepository);
+            var courseService = new CourseService(courseRepository, gradeRepository);
 
             // Run the form
-            //Application.Run(new StudentManagement(studentService));
-            //Application.Run(new CourseManagement(courseService));
-            Application.Run(new GradeManagement(gradeService, studentService, courseService));
+            Application.Run(new MainForm(studentService, courseService, gradeService));
         }
     }
 }

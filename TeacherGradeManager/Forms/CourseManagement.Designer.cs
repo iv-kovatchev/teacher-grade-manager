@@ -30,6 +30,7 @@
         {
             dgvCourses = new DataGridView();
             panel1 = new Panel();
+            btnBack = new Button();
             btnCancel = new Button();
             btnDelete = new Button();
             btnEdit = new Button();
@@ -63,6 +64,7 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(btnBack);
             panel1.Controls.Add(btnCancel);
             panel1.Controls.Add(btnDelete);
             panel1.Controls.Add(btnEdit);
@@ -80,9 +82,19 @@
             panel1.Size = new Size(882, 235);
             panel1.TabIndex = 5;
             // 
+            // btnBack
+            // 
+            btnBack.Location = new Point(732, 195);
+            btnBack.Name = "btnBack";
+            btnBack.Size = new Size(120, 30);
+            btnBack.TabIndex = 12;
+            btnBack.Text = "Back";
+            btnBack.UseVisualStyleBackColor = true;
+            btnBack.Click += btnBack_Click;
+            // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(732, 195);
+            btnCancel.Location = new Point(732, 65);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(120, 30);
             btnCancel.TabIndex = 11;
@@ -197,6 +209,7 @@
             Controls.Add(panel1);
             Controls.Add(dgvCourses);
             Name = "CourseManagement";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Course Management";
             ((System.ComponentModel.ISupportInitialize)dgvCourses).EndInit();
             panel1.ResumeLayout(false);
@@ -220,5 +233,6 @@
         private Button btnDelete;
         private Button btnEdit;
         private Button btnCancel;
+        private Button btnBack;
     }
 }
